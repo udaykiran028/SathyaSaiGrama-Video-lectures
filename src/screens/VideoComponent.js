@@ -1,27 +1,38 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
-const VideoComponent = ({ title, part, medium, subject }) => {
+const VideoComponent = ({ data, navigation }) => {
   return (
-    <View style={styles.card}>
-      <Text style={styles.title}>{title}</Text>
-      <View style={styles.row}>
-        <Text><Text style={{color:"#AA0019"}}>Part:</Text> <Text style={styles.bold}>{part}</Text></Text>
-        <Text><Text style={{color:"#AA0019"}}>Medium:</Text> <Text style={styles.bold}>{medium}</Text></Text>
-      </View>
-      <Text><Text style={{color:"#AA0019"}}>Subject:</Text> <Text style={styles.bold}>{subject}</Text></Text>
-    </View>
+    <TouchableOpacity 
+      style={styles.card} 
+      onPress={() => navigation.navigate('ViewVideoComponent', { data })}
+    >
+      <LinearGradient
+        colors={['#FDF3F3', '#FDF1D6']}
+        style={styles.gradient}
+      >
+        <Text style={styles.title}>{data.Chapter_Name_from_lookup}</Text>
+        <View style={styles.row}>
+          <Text><Text style={{ color: "#AA0019" }}>Part:</Text> <Text style={styles.bold}>{data.Part}</Text></Text>
+          <Text><Text style={{ color: "#AA0019" }}>Medium:</Text> <Text style={styles.bold}>{data.Medium_from_chapter}</Text></Text>
+        </View>
+        <Text><Text style={{ color: "#AA0019" }}>Subject:</Text> <Text style={styles.bold}>{data.Subject_from_chapter}</Text></Text>
+      </LinearGradient>
+    </TouchableOpacity>
   );
 };
-
+  
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FDF1D6',
-    fontFamily: 'Poppins',
-    padding: 16,
     borderRadius: 10,
     marginVertical: 8,
     elevation: 3,
+    overflow: 'hidden', // Ensures the gradient does not exceed the card's border radius
+  },
+  gradient: {
+    padding: 16,
+    borderRadius: 10,
   },
   title: {
     fontWeight: 'bold',

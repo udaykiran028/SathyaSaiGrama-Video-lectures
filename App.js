@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import BottomNavigation from './src/navigation/BottomNavigation';
 import {
@@ -12,11 +12,15 @@ import {
   APPWRITE_API_KEY,
 } from '@env';
 import UserContext from './context/UserContext';
+import DotsBlinkingLoaderEllipsis from './src/screens/DotsBlinkingLoaderEllipsis';
 
 const Tab = createBottomTabNavigator();
 
 const App = () => {
   const [isNetworkAvailable, setIsNetworkAvailable] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [dotsBlinkingLoaderEllipsis,setDotsBlinkingLoaderEllipsis] =useState(true);
+
   const {
     accessToken,
     setAccessToken
@@ -69,7 +73,8 @@ const App = () => {
   useEffect(() => {
     if (accessToken) {
       console.log("Access token found, stopping loading", accessToken);
-
+      setLoading(false);
+      setDotsBlinkingLoaderEllipsis(false)
     } else {
       console.log("Access token missing, still loading");
     }
@@ -77,9 +82,24 @@ const App = () => {
 
   return (
     <>
+   {loading ? dotsBlinkingLoaderEllipsis?(<DotsBlinkingLoaderEllipsis />): (
+        <ActivityIndicator
+          size="large"
+          color="#752A26"
+          style={styles.loadingContainer}
+        />
+      ) : (
       <BottomNavigation />
+      )}
     </>
   );
 };
 
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 export default App;

@@ -1,20 +1,27 @@
-import React from 'react';
-import { Text, View, FlatList } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import VideoLecturesList from './VideoLecturesList';
+import ViewVideoComponent from './ViewVideoComponent';
 
-import VideoComponent from './VideoComponent';
-
-export default function VideoLectureTab() {
-  const DATA = [
-    { id: '1', title: 'PRODUCT DESIGN', part: '1 OF 1', medium: 'ENGLISH', subject: 'MATHEMATICS' },
-    { id: '2', title: 'PRODUCT DESIGN', part: '1 OF 1', medium: 'ENGLISH', subject: 'MATHEMATICS' },
-    { id: '3', title: 'PRODUCT DESIGN', part: '1 OF 1', medium: 'ENGLISH', subject: 'MATHEMATICS' },
-  ];
+export default function VideoLectureTab({navigation}) {
+  const VideosStack = createNativeStackNavigator()
 
   return (
-     <FlatList
-      data={DATA}
-      keyExtractor={item => item.id}
-      renderItem={({ item }) => <VideoComponent {...item} />}
-    />
-  );
+      <VideosStack.Navigator screenOptions={{
+        headerTintColor: '#1E1E1E',
+        headerStyle: {
+          backgroundColor: '#FFD8E4', // Background color of the header
+        },
+          headerTitleStyle: {
+            fontFamily: 'Subheading',
+            fontSize: 18,
+            fontWeight: '800',
+            textAlign: 'center',
+            fontStyle: 'normal',
+          },
+      }}>
+        <VideosStack.Screen  name="VideoLecturesList" component={VideoLecturesList} options={{ headerShown: false}}/>
+        <VideosStack.Screen name="ViewVideoComponent" component={ViewVideoComponent} options={{ headerShown: false}} />
+      </VideosStack.Navigator>
+  )
 }

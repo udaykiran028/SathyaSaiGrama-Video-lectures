@@ -20,9 +20,7 @@ const BottomNavigation = () => {
             height: 70,
             borderTopWidth: 0,
             elevation: 0,
-            padding: 10,
-            gap: 4,
-            paddingBottom: 20,
+            backgroundColor: '#FFE9B5',
           },
         }}
       >
@@ -32,7 +30,7 @@ const BottomNavigation = () => {
           options={{
             headerShown: false,
             tabBarIcon: ({ focused }) => (
-              <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+              <View style={{ flexDirection: 'column', alignItems: 'center', paddingTop: 14 }}>
                 <Image
                   source={require('../assets/video.png')}
                   resizeMode="contain"
@@ -62,7 +60,7 @@ const BottomNavigation = () => {
           options={{
             headerShown: false,
             tabBarIcon: ({ focused }) => (
-              <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+              <View style={{ flexDirection: 'column', alignItems: 'center',paddingTop: 14 }}>
                 <Image
                   source={require('../assets/info.png')}
                   resizeMode="contain"
