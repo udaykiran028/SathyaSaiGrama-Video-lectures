@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Text, View, FlatList, TextInput, StyleSheet, Image } from 'react-native';
+import { Text, View, FlatList, TextInput, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import VideoComponent from './VideoComponent';
 import UserContext from '../../context/UserContext';
 import { BASE_APP_URL, APP_OWNER_NAME, APP_LINK_NAME } from '@env';
 import Filter from './Filter';
 import searchIcon from "../assets/search.png";
+import logo from "../assets/logo.png";
 
 export default function VideoLecturesList({ navigation }) {
   const [allVideoLectures, setAllVideoLectures] = useState([]);
   const [filteredLectures, setFilteredLectures] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [baseFilteredLectures, setBaseFilteredLectures] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { accessToken } = useContext(UserContext);
   const [subject1Array, setSubject1Array] = useState([]);
@@ -60,7 +62,7 @@ export default function VideoLecturesList({ navigation }) {
       return [];
     }
   };
-  
+
 
   useEffect(() => {
     const getVideosData = async () => {
@@ -72,6 +74,7 @@ export default function VideoLecturesList({ navigation }) {
       const subject1Array = subjects.map(obj => obj.Subject1.trim());
       setSubject1Array(subject1Array);
       console.log("object::--", subject1Array);
+      setIsLoading(false);
     };
     getVideosData();
   }, []);
@@ -90,43 +93,53 @@ export default function VideoLecturesList({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', marginTop: 10 }}>
-        {/* Search Bar */}
-        <View style={styles.searchContainer}>
-          <Image source={searchIcon} style={{ width: 15, height: 15 }} />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search Videos..."
-            placeholderTextColor="#8C8C8C"
-            value={searchText}
-            onChangeText={handleSearch}
-          />
+      {isLoading ? (
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color="#AA0019" />
         </View>
-        {
-          allVideoLectures && (
-            <Filter
-              setFilteredData={(filteredData) => {
-                setFilteredLectures(filteredData);
-                setBaseFilteredLectures(filteredData); // Update baseFilteredLectures after filtering
-              }}
-              subjects = {subject1Array}
-              allData={allVideoLectures}
+      ) : (
+        <>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', marginTop: 10 }}>
+            <Image source={logo} style={{ width: 52, height: 52 }} />
+            <View style={styles.searchContainer}>
+              <Image source={searchIcon} style={{ width: 15, height: 15 }} />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search Videos..."
+                placeholderTextColor="#8C8C8C"
+                value={searchText}
+                onChangeText={handleSearch}
+              />
+            </View>
+            {allVideoLectures && (
+              <Filter
+                setFilteredData={(filteredData) => {
+                  setFilteredLectures(filteredData);
+                  setBaseFilteredLectures(filteredData);
+                }}
+                subjects={subject1Array}
+                allData={allVideoLectures}
+              />
+            )}
+          </View>
+
+          {filteredLectures.length === 0 ? (
+            <View style={styles.noLectureContainer}>
+              <Text style={styles.noLectureText}>No Lectures Found</Text>
+            </View>
+          ) : (
+            <FlatList
+              data={filteredLectures}
+              style={{ padding: 10 }}
+              renderItem={({ item }) =>
+                item?.Final_Lesson_URL?.url ? <VideoComponent data={item} navigation={navigation} /> : null
+              }
+              keyExtractor={(item) => item.ID.toString()}
             />
-          )
-        }
-      </View>
+          )}
 
-
-      {/* Video List */}
-      <FlatList
-        data={filteredLectures}
-        style={{ padding: 10 }}
-        renderItem={({ item }) =>
-          item?.Final_Lesson_URL?.url ? <VideoComponent data={item} navigation={navigation} /> : null
-        }
-        keyExtractor={(item) => item.ID.toString()}
-      />
-
+        </>
+      )}
     </View>
   );
 }
@@ -135,7 +148,19 @@ export default function VideoLecturesList({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: '#fff',
+  },
+  noLectureContainer: {
+    flex: 1,
+    color: 'gray',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#AA0019',
   },
   searchContainer: {
     flexDirection: 'row',
@@ -143,14 +168,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#FDF1D6', // Light yellowish background
     borderRadius: 25,
     paddingHorizontal: 15,
-    margin: 10,
+    margin: 8,
     fontSize: 14,
-    width: '75%',
+    width: '70%',
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 14,
     color: '#333',
+  },
+  skeletonItem: {
+    borderRadius: 10,
+    marginVertical: 8,
+    elevation: 3,
+    overflow: 'hidden', // Ensures the gradient does not exceed the card's border radius
+  },
+  gradient: {
+    padding: 16,
+    borderRadius: 10,
   },
 });
 

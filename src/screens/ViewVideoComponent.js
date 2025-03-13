@@ -1,11 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useRef,useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import Orientation from "react-native-orientation-locker";
 import { Linking } from 'react-native';
 import pdfIcon from '../assets/pdf.png';
+import RNFS from 'react-native-fs';
 
 const ViewVideoComponent = ({ route }) => {
+
+     useEffect(() => {
+        const fontpath = RNFS.MainBundlePath+'./assets/fonts/Poppins-Regular.ttf';
+      }
+      , []);
 
     const { data } = route.params;
     let videoId = null
@@ -89,7 +95,7 @@ const ViewVideoComponent = ({ route }) => {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: ' #FDF3F3',
+        backgroundColor:'#FDF3F3',
         width: '100%',
         height: '100%',
     },
@@ -102,7 +108,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#AA0019',
         marginBottom: 10,
-
+        fontFamily: 'Poppins-Italic',
     },
     label: {
         fontSize: 16,
@@ -113,6 +119,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#555',
         marginBottom: 10,
+        lineHeight: 22,
     },
     value: {
         fontSize: 14,

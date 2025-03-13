@@ -285,8 +285,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   image: {
-    width: 24,
-    height: 24,
+    width: 22,
+    height: 22,
     fontWeight: "bold",
     tintColor: '#B21E2B', // Changes the color of the image
     marginTop: 3,
@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
   filterbtn: {
     alignSelf: 'flex-end',
     marginVertical: 2,
-    marginEnd: 25,
+    marginEnd: 10,
   },
   filter: {
     fontSize: 16,

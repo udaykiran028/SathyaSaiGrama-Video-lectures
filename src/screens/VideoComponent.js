@@ -14,22 +14,16 @@ const VideoComponent = ({ data, navigation }) => {
       >
         <Text style={styles.title}>{data.Chapter_Name_from_lookup}</Text>
         <View style={styles.row}>
-          <Text><Text style={{ color: "#AA0019" }}>Part:</Text> <Text style={styles.bold}>{data.Part}</Text></Text>
-          <Text><Text style={{ color: "#AA0019" }}>Medium:</Text> <Text style={styles.bold}>{data.Medium_from_chapter}</Text></Text>
+          <Text><Text style={{ color: "#AA0019", fontSize:12}}>Part:</Text> <Text style={styles.bold}>{data.Part}</Text></Text>
+          <Text><Text style={{ color: "#AA0019", fontSize:12 }}>Medium:</Text> <Text style={styles.bold}>{data.Medium_from_chapter}</Text></Text>
         </View>
-        <Text><Text style={{ color: "#AA0019" }}>Subject:</Text> <Text style={styles.bold}>{data.Subject_from_chapter}</Text></Text>
+        <Text><Text style={{ color: "#AA0019", fontSize:12 }}>Subject:</Text> <Text style={styles.bold}>{data.Subject_from_chapter}</Text></Text>
       </LinearGradient>
     </TouchableOpacity>
   );
 };
   
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: 10,
-    marginVertical: 8,
-    elevation: 3,
-    overflow: 'hidden', // Ensures the gradient does not exceed the card's border radius
-  },
   gradient: {
     padding: 16,
     borderRadius: 10,
@@ -37,16 +31,26 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     color: '#AA0019',
-    fontSize: 16,
+    fontSize: 14,
+    fontFamily: 'Poppins Italic',
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 4,
+    marginVertical: 3,
   },
   bold: {
     fontWeight: 'bold',
+    fontSize: 12,
+    fontFamily:'Poppins-Italic',
     color: '#AA0019',
+  },
+  card: {
+    borderRadius: 10,
+    marginVertical: 6,
+    elevation: 3,
+    fontFamily: 'Poppins-Italic',
+    overflow: 'hidden', // Ensures the gradient does not exceed the card's border radius
   },
 });
 

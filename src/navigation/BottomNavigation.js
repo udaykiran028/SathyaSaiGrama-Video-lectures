@@ -4,6 +4,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, Text, View } from 'react-native';
 import VideoLectureTab from '../screens/VideoLectureTab';
 import AboutUsTab from '../screens/AboutUsTab';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 
 const Tab = createBottomTabNavigator();
@@ -17,11 +19,16 @@ const BottomNavigation = () => {
           headerShown: false,
           tabBarHideOnKeyboard: true,
           tabBarStyle: {
-            height: 70,
             borderTopWidth: 0,
             elevation: 0,
             backgroundColor: '#FFE9B5',
+            position: 'absolute',  // Ensures the tab bar does not float
+            bottom: 0,             // Fixes it at the bottom
+            left: 0,
+            right: 0, 
+            height: 70,
           },
+          safeAreaInsets: { bottom: 0 },  // Removes extra safe area spacing
         }}
       >
         <Tab.Screen
@@ -37,6 +44,7 @@ const BottomNavigation = () => {
                   style={{
                     width: 30,
                     height: 30,
+
                     tintColor: focused ? '#B21E2B' : '#49454F',
                     marginTop: 10,
                   }}
